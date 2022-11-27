@@ -55,8 +55,8 @@ class _MainPageState extends State<MainPage> {
                   text: 'Home',
                   textColor: Colors.white),
               GButton(
-                icon: FlutterRemix.emotion_line,
-                text: 'Emotions',
+                icon: FlutterRemix.exchange_funds_fill,
+                text: 'Transactions',
               ),
               // GButton(
               //   icon: FlutterRemix.add_line,

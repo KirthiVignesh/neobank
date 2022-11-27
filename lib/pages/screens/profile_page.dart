@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_remix/flutter_remix.dart';
@@ -35,6 +36,32 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.deepPurple,
+        toolbarHeight: 80,
+        title: Text("Profile"),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(
+                icon: Icon(
+                  FlutterRemix.logout_box_r_line,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  CoolAlert.show(
+                      context: context,
+                      type: CoolAlertType.confirm,
+                      onConfirmBtnTap: () {
+                        FirebaseAuth.instance.signOut();
+                        Navigator.pop(context);
+                      },
+                      text: "Are you sure you want to log out");
+                },
+                color: Colors.black),
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -52,7 +79,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      _userDetails?['first_name'],
+                      _userDetails == null
+                          ? "Hi There"
+                          : "Hi ${_userDetails?['first_name']}",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 36,
@@ -93,7 +122,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           Text("KYC Details"),
                           Spacer(flex: 8),
                           Text(
-                            _userDetails?['kyc_status'],
+                            _userDetails == null
+                                ? "Loading"
+                                : "${_userDetails?['kyc_status']}",
                             style: TextStyle(color: Colors.amber),
                           )
                         ],
@@ -107,7 +138,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           Text("Contact Details"),
                           Spacer(flex: 8),
                           Text(
-                            _userDetails?['kyc_status'],
+                            _userDetails == null
+                                ? "Loading"
+                                : "${_userDetails?['kyc_status']}",
                             style: TextStyle(color: Colors.amber),
                           )
                         ],

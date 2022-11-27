@@ -93,6 +93,34 @@ class StellarFunctions {
     receiver.balances?.forEach((element) {
       if (element!.assetCode == 'INR') bal = element.balance!;
     });
+    print(bal);
     return bal;
+  }
+
+  static Future<List<String>> getTransactions(String sKey) async {
+    StellarSDK sdk = StellarSDK.TESTNET;
+    KeyPair cust = KeyPair.fromSecretSeed(sKey);
+    print(sKey);
+    List<String> res = List.empty(growable: true);
+
+    Page<OperationResponse> payments = await sdk.payments
+        .forAccount(cust.accountId)
+        .order(RequestBuilderOrder.DESC)
+        .limit(10)
+        .execute();
+
+    for (OperationResponse response in payments.records!) {
+      if (response is PaymentOperationResponse) {
+        PaymentOperationResponse por = response as PaymentOperationResponse;
+        print(
+            "Payment of ${response.amount} ${response.assetCode} from ${response.sourceAccount} received.");
+        res.add(
+            "Payment of ${response.amount} ${response.assetCode} from ${response.sourceAccount} received.Transaction hash: ${por.transactionHash}");
+        if (por.transactionSuccessful!) {
+          print("Transaction hash: ${por.transactionHash}");
+        }
+      }
+    }
+    return res;
   }
 }
