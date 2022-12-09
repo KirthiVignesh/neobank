@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_remix/flutter_remix.dart';
+import 'package:neobank/pages/screens/transfer_money.dart';
 import 'package:neobank/pages/utils/neobutton.dart';
 import 'package:neobank/util/create_stellar_account.dart';
 
@@ -132,8 +133,11 @@ class _HomePageState extends State<HomePage> {
                         width: 50,
                         child: IconButton(
                           onPressed: () {
-                            StellarFunctions.transferMoney(
-                                '1000', _userDetails!['secret_key'], recKey);
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => TransferMoney(
+                                    addr: _userDetails!['secret_key'])));
+                            // StellarFunctions.transferMoney(
+                            //     '1000', _userDetails!['secret_key'], recKey);
                           },
                           color: Colors.blue,
                           icon: Icon(FlutterRemix.bank_card_line,
