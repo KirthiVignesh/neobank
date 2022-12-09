@@ -32,7 +32,7 @@ class _TransferMoneyState extends State<TransferMoney> {
     });
     CoolAlert.show(
         context: context,
-        type: CoolAlertType.confirm,
+        type: CoolAlertType.success,
         onConfirmBtnTap: () {
           Navigator.pop(context);
         },
@@ -51,7 +51,7 @@ class _TransferMoneyState extends State<TransferMoney> {
       min: 0, max: 10000, errorText: 'Enter a valid amount below 10000');
   @override
   Widget build(BuildContext context) {
-    if (_isLoading)
+    if (_isLoading) {
       return Scaffold(
         body: Center(
             child: Row(
@@ -63,59 +63,84 @@ class _TransferMoneyState extends State<TransferMoney> {
           ],
         )),
       );
-    else if (_isCompleted)
+    } else if (_isCompleted) {
       return Scaffold(
         body: Center(child: Text("Transaction is successful")),
       );
-    else
-      return Scaffold(
-        body: Row(
-          children: [
-            TextFormField(
-              controller: _amountController,
-              validator: AmountValidator,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
-                      borderRadius: BorderRadius.circular(12)),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.indigo),
-                      borderRadius: BorderRadius.circular(12)),
-                  hintText: 'Amount to be transfered',
-                  fillColor: Colors.white,
-                  filled: true),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            TextFormField(
-              controller: _addressController,
-              keyboardType: TextInputType.text,
-              decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
-                      borderRadius: BorderRadius.circular(12)),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.indigo),
-                      borderRadius: BorderRadius.circular(12)),
-                  hintText: 'Receiver Address',
-                  fillColor: Colors.white,
-                  filled: true),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            TextButton(
-                onPressed: sendTransaction,
-                child: Row(
-                  children: [
-                    Text('Tansfer money  '),
-                    Icon(FlutterRemix.send_plane_2_line)
-                  ],
-                ))
-          ],
+    } else {
+      return SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text('Transaction'),
+            foregroundColor: Colors.deepPurple,
+            backgroundColor: Colors.white,
+          ),
+          body: Column(
+            children: [
+              SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    child: TextField(
+                      controller: _amountController,
+                      //validator: AmountValidator,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(12)),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.indigo),
+                              borderRadius: BorderRadius.circular(12)),
+                          hintText: 'Amount to be transfered',
+                          fillColor: Colors.white,
+                          filled: true),
+                    ),
+                  )),
+              SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    child: TextField(
+                      controller: _addressController,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                              borderRadius: BorderRadius.circular(12)),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.indigo),
+                              borderRadius: BorderRadius.circular(12)),
+                          hintText: 'Receiver Address',
+                          fillColor: Colors.white,
+                          filled: true),
+                    ),
+                  )),
+              SizedBox(
+                height: 20,
+              ),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextButton(
+                      onPressed: sendTransaction,
+                      child: Row(
+                        children: [
+                          Text('Tansfer money  '),
+                          Icon(FlutterRemix.send_plane_2_line)
+                        ],
+                      )),
+                ),
+              )
+            ],
+          ),
         ),
       );
+    }
   }
 }

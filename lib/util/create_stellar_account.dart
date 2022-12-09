@@ -61,7 +61,7 @@ class StellarFunctions {
       KeyPair issuer = KeyPair.fromSecretSeed(
           "SADPSHZQT5KPEQDVSWJH44BJJEMM5VJRNPVLONV4HQGISCTRILPHC66R");
       KeyPair sender1 = KeyPair.fromSecretSeed(sender);
-      KeyPair receiver1 = KeyPair.fromSecretSeed(receiver);
+      KeyPair receiver1 = KeyPair.fromAccountId(receiver);
       Asset iomAsset = AssetTypeCreditAlphaNum4("INR", issuer.accountId);
       AccountResponse nb = await sdk.accounts.account(sender1.accountId);
       Transaction transaction = new TransactionBuilder(nb)
